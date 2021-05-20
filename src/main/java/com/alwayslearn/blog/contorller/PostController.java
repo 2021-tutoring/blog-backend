@@ -3,6 +3,7 @@ package com.alwayslearn.blog.contorller;
 import com.alwayslearn.blog.contorller.request.UpdatePostRequest;
 import com.alwayslearn.blog.contorller.request.WritePostRequest;
 import com.alwayslearn.blog.contorller.response.PostResponse;
+import com.alwayslearn.blog.contorller.response.PostsResponse;
 import com.alwayslearn.blog.model.Post;
 import com.alwayslearn.blog.model.dto.ModifyPostDto;
 import com.alwayslearn.blog.service.PostService;
@@ -10,12 +11,22 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/boards/{boardId}/posts")
 @RequiredArgsConstructor
 public class PostController {
 
     private final PostService postService;
+
+
+    @GetMapping
+    @ResponseStatus(HttpStatus.OK)
+    public PostsResponse getPosts(@PathVariable Long boardId){
+        List<Post> posts = this.postService.getPosts(boardId);
+        return new PostsResponse(posts);
+    }
 
     @GetMapping("/{postId}")
     @ResponseStatus(HttpStatus.OK)

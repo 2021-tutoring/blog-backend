@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -33,5 +34,9 @@ public class PostService {
         post.editPost(modifyPostDto.getTitle(), modifyPostDto.getSubject());
         return postRepository.save(post);
 
+    }
+
+    public List<Post> getPosts(Long boardId) {
+        return postRepository.findAll();
     }
 }

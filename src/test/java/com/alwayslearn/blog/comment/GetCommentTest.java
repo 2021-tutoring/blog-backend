@@ -35,7 +35,7 @@ public class GetCommentTest extends BaseControllerTest {
         Long commentId = commentService.addComment(postId, new ModifyCommentDto((long) 1, "content")).getId();
 
         //When
-        ResultActions commentCheck = this.mockMvc.perform(get("/boards/{boardId}/posts/{postId}/comments/{commentId}", 1, postId, commentId));
+        ResultActions commentCheck = this.mockMvc.perform(get("/boards/{boardId}/posts/{postId}/comments", 1, postId));
 
         //Then
         commentCheck.andExpect(status().isOk())
