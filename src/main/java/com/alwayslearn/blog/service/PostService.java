@@ -18,25 +18,30 @@ public class PostService {
     private final PostRepository postRepository;
 
     @Transactional
-    public Post getPost(Long boardId, Long postId) {
+    public Post getPost(Long postId) {
         Post post = postRepository.findById(postId).orElseThrow(() -> new PostNotFoundException(postId));
         post.increaseViewCount();
         return post;
     }
 
-    public Post writePost(Long boardId, ModifyPostDto modifyPostDto) {
+    public Post writePost(ModifyPostDto modifyPostDto) {
         Post post = new Post(modifyPostDto);
         return postRepository.save(post);
     }
 
-    public Post updatePost(Long boardId, Long postId, ModifyPostDto modifyPostDto) {
+    public Post updatePost(Long postId, ModifyPostDto modifyPostDto) {
         Post post = postRepository.findById(postId).orElseThrow(() -> new PostCantUpdateException(postId));
         post.editPost(modifyPostDto.getTitle(), modifyPostDto.getSubject());
         return postRepository.save(post);
 
     }
 
-    public List<Post> getPosts(Long boardId) {
+    public List<Post> getPosts() {
         return postRepository.findAll();
+    }
+
+    @Transactional
+    public void deletePost(long postId) {
+        postRepository.deleteById(postId);
     }
 }

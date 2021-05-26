@@ -29,7 +29,7 @@ public class CommentService {
     }
 
     @Transactional
-    public List<CommentDto> getComment(Long size, Long page, long boardsId, long postId) {
+    public List<CommentDto> getComment(Long size, Long page, long postId) {
         List<CommentDto> comment = commentRepository.findAllByPost_PostId(postId);
         return comment;
     }
@@ -41,4 +41,8 @@ public class CommentService {
         return new CommentDto(comment);
     }
 
+    @Transactional
+    public void deleteComment(long commentId) {
+        commentRepository.deleteById(commentId);
+    }
 }

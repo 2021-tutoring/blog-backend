@@ -28,11 +28,11 @@ public class UpdatePostTest extends BaseControllerTest {
     @DisplayName("댓글 수정(성공)")
     void updateCommentSuccess() throws Exception {
         //Given
-        Long postId = postService.writePost((long) 1, new ModifyPostDto(1, "제목", "내용")).getPostId();
+        Long postId = postService.writePost( new ModifyPostDto(1, "제목", "내용")).getPostId();
         UpdatePostRequest updatePostRequest = new UpdatePostRequest(1, "제목", "내용");
 
         //When
-        ResultActions resultActions = this.mockMvc.perform(put("/boards/{boardId}/posts/{postId}", 1, postId)
+        ResultActions resultActions = this.mockMvc.perform(put("/posts/{postId}", postId)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(this.objectMapper.writeValueAsString(updatePostRequest))
         );

@@ -23,7 +23,7 @@ public class AddPostTest extends BaseControllerTest {
         //Given
         WritePostRequest writePostRequest = new WritePostRequest(1, "Title", "Subject");
         //When
-        ResultActions resultActions = this.mockMvc.perform(post("/boards/{boardId}/posts", 1)
+        ResultActions resultActions = this.mockMvc.perform(post("/posts")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(this.objectMapper.writeValueAsString(writePostRequest))
         );

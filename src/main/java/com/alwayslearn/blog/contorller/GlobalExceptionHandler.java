@@ -15,6 +15,7 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ResponseBody
     public ErrorResponse reportError(Throwable throwable) {
+        System.out.println(throwable);
         return new ErrorResponse("Global-0", "예상치 못한 에러가 발생했습니다. 빨리 고치겠습니다.");
     }
 
