@@ -3,15 +3,17 @@ package com.alwayslearn.blog.contorller;
 import com.alwayslearn.blog.contorller.request.UpdatePostRequest;
 import com.alwayslearn.blog.contorller.request.WritePostRequest;
 import com.alwayslearn.blog.contorller.response.PostResponse;
-import com.alwayslearn.blog.contorller.response.PostsResponse;
 import com.alwayslearn.blog.model.Post;
 import com.alwayslearn.blog.model.dto.ModifyPostDto;
 import com.alwayslearn.blog.service.PostService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PagedResourcesAssembler;
+import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.PagedModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/posts")
@@ -23,9 +25,13 @@ public class PostController {
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public PostsResponse getPosts(){
-        List<Post> posts = this.postService.getPosts();
-        return new PostsResponse(posts);
+    public PagedModel<EntityModel<Post>> getPosts(
+            Pageable pageable,
+            PagedResourcesAssembler<Post> assembler
+            ){
+        Page<Post> posts = this.postService.getPosts(pageable);
+
+        return assembler.toModel(posts);
     }
 
     @GetMapping("/{postId}")

@@ -6,6 +6,8 @@ import com.alwayslearn.blog.model.Post;
 import com.alwayslearn.blog.model.dto.ModifyPostDto;
 import com.alwayslearn.blog.model.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -36,8 +38,9 @@ public class PostService {
 
     }
 
-    public List<Post> getPosts() {
-        return postRepository.findAll();
+    public Page<Post> getPosts(
+            Pageable pageable) {
+        return postRepository.findAll(pageable);
     }
 
     @Transactional
