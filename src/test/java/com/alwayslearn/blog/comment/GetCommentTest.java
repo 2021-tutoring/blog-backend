@@ -31,11 +31,11 @@ public class GetCommentTest extends BaseControllerTest {
     @DisplayName("댓글 열람 (성공)")
     void GetCommentSuccess() throws Exception {
         //Given
-        Long postId = postService.writePost((long) 1, new ModifyPostDto(1, "제목", "내용")).getPostId();
+        Long postId = postService.writePost( new ModifyPostDto(1, "제목", "내용")).getPostId();
         Long commentId = commentService.addComment(postId, new ModifyCommentDto((long) 1, "content")).getId();
 
         //When
-        ResultActions commentCheck = this.mockMvc.perform(get("/boards/{boardId}/posts/{postId}/comments", 1, postId));
+        ResultActions commentCheck = this.mockMvc.perform(get("/posts/{postId}/comments", postId));
 
         //Then
         commentCheck.andExpect(status().isOk())

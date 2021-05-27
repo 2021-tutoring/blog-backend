@@ -26,10 +26,10 @@ public class GetPostTest extends BaseControllerTest {
     @DisplayName("게시물 조회 (성공)")
     void GetPostSuccess() throws Exception {
         //Given
-        Long postId = postService.writePost((long) 1,new ModifyPostDto(1,"제목","내용")).getPostId();
+        Long postId = postService.writePost(new ModifyPostDto(1,"제목","내용")).getPostId();
 
         //When
-        ResultActions resultActions = this.mockMvc.perform(get("/boards/{boardId}/posts/{postId}",1,postId));
+        ResultActions resultActions = this.mockMvc.perform(get("/posts/{postId}",postId));
 
         //Then
         resultActions.andExpect(status().isOk())

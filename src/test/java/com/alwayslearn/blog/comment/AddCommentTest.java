@@ -27,10 +27,10 @@ public class AddCommentTest extends BaseControllerTest {
     @DisplayName("댓글 저장(성공)")
     void insertCommentSuccess() throws Exception {
         //Given
-        Long postId = postService.writePost((long) 1, new ModifyPostDto(1, "제목", "내용")).getPostId();
+        Long postId = postService.writePost( new ModifyPostDto(1, "제목", "내용")).getPostId();
         AddCommentRequest addCommentRequest = new AddCommentRequest(1, "content");
         //When
-        ResultActions resultActions = this.mockMvc.perform(post("/boards/{boardsId}/posts/{postId}/comments", 1, postId)
+        ResultActions resultActions = this.mockMvc.perform(post("/posts/{postId}/comments",  postId)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(this.objectMapper.writeValueAsString(addCommentRequest))
         );

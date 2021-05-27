@@ -26,27 +26,33 @@ public class GetPostsTest extends BaseControllerTest {
     @DisplayName("게시물 조회 (성공)")
     void GetPostSuccess() throws Exception {
         //Given
-        postService.writePost((long) 1,new ModifyPostDto(1,"제목","내용")).getPostId();
-        postService.writePost((long) 1,new ModifyPostDto(1,"제목","내용")).getPostId();
+        postService.writePost(new ModifyPostDto(1,"제목","내용")).getPostId();
+        postService.writePost(new ModifyPostDto(1,"제목","내용")).getPostId();
         //When
-        ResultActions resultActions = this.mockMvc.perform(get("/boards/{boardId}/posts",1));
+        ResultActions resultActions = this.mockMvc.perform(get("/posts"));
 
         //Then
         resultActions.andExpect(status().isOk())
 
-                .andExpect(jsonPath("posts[0].userId").value(1))
-                .andExpect(jsonPath("posts[0].title").value("제목"))
-                .andExpect(jsonPath("posts[0].subject").value("내용"))
+                .andExpect(jsonPath("_embedded.postList[0].userId").value(1))
+                .andExpect(jsonPath("_embedded.postList[0].title").value("제목"))
+                .andExpect(jsonPath("_embedded.postList[0].subject").value("내용"))
 
                 .andDo(document("get-posts",
                         responseFields(
-                                fieldWithPath("posts[].postId").type(JsonFieldType.NUMBER).description("보드 ID"),
-                                fieldWithPath("posts[].userId").type(JsonFieldType.NUMBER).description("유저 ID"),
-                                fieldWithPath("posts[].title").type(JsonFieldType.STRING).description("제목"),
-                                fieldWithPath("posts[].subject").type(JsonFieldType.STRING).description("제목"),
-                                fieldWithPath("posts[].createdDate").type(JsonFieldType.STRING).description("날짜"),
-                                fieldWithPath("posts[].commentNum").type(JsonFieldType.NUMBER).description("댓글 수"),
-                                fieldWithPath("posts[].viewCount").type(JsonFieldType.NUMBER).description("조회 수"))
+                                fieldWithPath("_embedded.postList[].postId").type(JsonFieldType.NUMBER).description("보드 ID"),
+                                fieldWithPath("_embedded.postList[].userId").type(JsonFieldType.NUMBER).description("유저 ID"),
+                                fieldWithPath("_embedded.postList[].title").type(JsonFieldType.STRING).description("제목"),
+                                fieldWithPath("_embedded.postList[].subject").type(JsonFieldType.STRING).description("제목"),
+                                fieldWithPath("_embedded.postList[].createdDate").type(JsonFieldType.STRING).description("날짜"),
+                                fieldWithPath("_embedded.postList[].commentNum").type(JsonFieldType.NUMBER).description("댓글 수"),
+                                fieldWithPath("_embedded.postList[].viewCount").type(JsonFieldType.NUMBER).description("조회 수"),
+                                fieldWithPath("_links.self.href").type(JsonFieldType.STRING).description("조회 수"),
+                                fieldWithPath("page.size").type(JsonFieldType.NUMBER).description("조회 수"),
+                                fieldWithPath("page.totalElements").type(JsonFieldType.NUMBER).description("조회 수"),
+                                fieldWithPath("page.totalPages").type(JsonFieldType.NUMBER).description("조회 수"),
+                                fieldWithPath("page.number").type(JsonFieldType.NUMBER).description("조회 수")
+                        )
                         )
                 )
         ;
